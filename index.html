@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Income Tracker</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: #f4f4f4;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        #incomeInput {
+            padding: 10px;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+
+        #addButton {
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        #incomeDisplay {
+            font-size: 20px;
+            font-weight: bold;
+            color: #333;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Daily Income Tracker</h1>
+
+    <label for="incomeInput">Enter your income:</label>
+    <input type="number" id="incomeInput" placeholder="Enter income..." onkeyup="handleKeyPress(event)">
+    <button id="addButton" onclick="addIncome()">Add</button>
+
+    <div id="incomeDisplay">Total Income: 0 rubles</div>
+
+    <script>
+        // Retrieve total income from localStorage or set it to 0
+        let totalIncome = parseFloat(localStorage.getItem("totalIncome")) || 0;
+
+        // Update the income display on page load
+        updateIncomeDisplay();
+
+        function addIncome() {
+            // Get the input value
+            const incomeInput = document.getElementById("incomeInput");
+            const incomeValue = parseFloat(incomeInput.value);
+
+            // Check if the input is a valid number
+            if (!isNaN(incomeValue)) {
+                // Add the income to the total
+                totalIncome += incomeValue;
+
+                // Update the income display
+                updateIncomeDisplay();
+
+                // Save the updated total income to localStorage
+                localStorage.setItem("totalIncome", totalIncome);
+
+                // Clear the input field
+                incomeInput.value = "";
+            } else {
+                alert("Please enter a valid number for income.");
+            }
+        }
+
+        function updateIncomeDisplay() {
+            // Display the updated total income
+            const incomeDisplay = document.getElementById("incomeDisplay");
+            incomeDisplay.textContent = `Total Income: ${totalIncome} rubles`;
+        }
+
+        function handleKeyPress(event) {
+            // Check if the Enter key is pressed (key code 13)
+            if (event.keyCode === 13) {
+                addIncome();
+            }
+        }
+    </script>
+</body>
+</html>
